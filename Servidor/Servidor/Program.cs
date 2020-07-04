@@ -105,23 +105,24 @@ namespace Servidor
         public void recibirMensaje(string msj, Usuario usuario)
         {
             string mensaje = "";
-            if (msj.Equals("c"))
+            switch (msj)
             {
-                string rival = ListadoUsuarios.ponerEnCola(usuario);
-                if (rival != "")
-                {
-                    mensaje = rival;
+                case "c":
+                    string rival = ListadoUsuarios.ponerEnCola(usuario);
+                    if (rival != "")
+                    {
+                        mensaje = rival;
+                        ListadoUsuarios.sacarDeLaCola(usuario);
+                        usuario.setConexion(clientSocket);
+                        mensajeAlCliente(mensaje);
+                    }
+                    break;
+                case "d":
                     ListadoUsuarios.sacarDeLaCola(usuario);
-                    usuario.setConexion(clientSocket);
-                    mensajeAlCliente(mensaje);        
-                }
-            }
-            else if (msj.Equals("d"))
-            {
-                ListadoUsuarios.sacarDeLaCola(usuario);
-                mensaje = "saliste de la cola";
-                Console.WriteLine(mensaje);
-            }
+                    mensaje = "saliste de la cola";
+                    Console.WriteLine(mensaje);
+                    break;
+            }  
         }  
     }
 }
